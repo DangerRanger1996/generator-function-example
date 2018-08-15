@@ -57,7 +57,7 @@ function* yieldAndReturn() {
     yield "Y";
     return "R";
     // after return you can not get a value but a status
-    yield "Y";
+    yield "R";
   }
 }
 
@@ -66,10 +66,28 @@ let returnGen = yieldAndReturn();
 let myFunc = () => {
   let counter = 0;
   let isDone = false;
-  while (counter <= 2) {
+  while (counter <= 8) {
     isDone = status = returnGen.next().done;
     counter++;
     console.log(counter, isDone);
   }
 };
+
+//------------------------------
+// Fibonacci
+//------------------------------
+
+
+function *fibonacci(n = null, current = 0, next = 1) {
+  if (n === 0) {
+    return 0;
+  }
+
+  yield current;
+  yield* fibonacci(n - 1, next, current + next);
+}
+
+let [...numbers] = fibonacci(20);
+console.log(numbers);
+
 
